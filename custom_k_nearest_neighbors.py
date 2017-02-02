@@ -32,7 +32,7 @@ df.replace('?', -99999, inplace=True)
 df.drop('id',1,inplace=True)
 full_data = df.astype(float).values.tolist()
 
-test_size = 0.8
+test_size = 0.9
 train_set = {2:[], 4:[]}
 test_set = {2:[], 4:[]}
 # last 20 %
@@ -42,10 +42,9 @@ test_data = full_data[:int(test_size*len(full_data)):]
 
 for i in train_data:
     train_set[i[-1]].append(i[:-1])
-# training set of [last number in i] upto the last number
+# training set of [last number in i] up to the last number
 for i in test_data:
     test_set[i[-1]].append(i[:-1])
-
 
 correct = 0.0
 total = 0.0
@@ -59,4 +58,4 @@ for group in test_set:
             print(confidence)
         total += 1
 
-print("Accuracy:", correct/total, )
+print("Accuracy:", correct/total)
