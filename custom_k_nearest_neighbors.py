@@ -23,7 +23,9 @@ def k_nearest_neighbors(data, predict, k=3):
             distances.append([euclidean_distance, group])
 
     votes = [i[1] for i in sorted(distances)[:k]]
+    print votes
     vote_result = Counter(votes).most_common(1)[0][0]
+    print Counter(votes).most_common(1)[0][1]
     confidence = Counter(votes).most_common(1)[0][1] / float(k)
     return vote_result, confidence
 
