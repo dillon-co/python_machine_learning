@@ -54,9 +54,11 @@ class Support_Vector_Machine:
             # we can do this because convex
             optimized = False
             while not optimized:
+                # print(-1*(self.max_feature_value*b_range_multiple))
                 for b in np.arange(-1*(self.max_feature_value*b_range_multiple),
                                    self.max_feature_value*b_range_multiple,
                                    step*b_multiple):
+
                     for transformation in transforms:
                         w_t = w*transformation
                         found_option = True
@@ -74,12 +76,14 @@ class Support_Vector_Machine:
 
                         if found_option:
                             opt_dict[np.linalg.norm(w_t)] = [w_t,b]
+                            # print [w_t, b]
 
                 if w[0] < 0:
                     optimized = True
                     print('Optimized a step.')
                 else:
                     w = w - step
+
 
             norms = sorted([n for n in opt_dict])
             #||w|| : [w,b]
@@ -95,6 +99,7 @@ class Support_Vector_Machine:
 
     def predict(self,features):
         # sign( x.w+b )
+        print self.w, self.b,
         classification = np.sign( np.dot(np.array(features), self.w) + self.b )
         if classification !=0 and self.visualization:
             self.ax.scatter(features[0], features[1], s=200, marker='*', c=self.colors[classification])
@@ -137,11 +142,11 @@ class Support_Vector_Machine:
 
 data_dict = {-1:np.array([[1,7],
                           [2,8],
-                          [3,8],]),
+                          [3,8]]),
 
              1:np.array([[5,1],
                          [6,-1],
-                         [7,3],])}
+                         [7,3]])}
 
 svm = Support_Vector_Machine()
 svm.fit(data=data_dict)
@@ -156,6 +161,6 @@ predict_us = [[0,10],
               [5,8]]
 
 for p in predict_us:
-    svm.predict(p)
+    svm.predict([6,5])
 
 svm.visualize()
