@@ -3,8 +3,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.contrib import rnn
 mnist = input_data.read_data_sets("/tmp/data", one_hot = True)
 
-hm_epochs = 1
-n_layers = 5
+hm_epochs = 2
+n_layers = 2
 n_classes = 10
 batch_size = 128
 chunk_size = 28
