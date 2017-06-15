@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import style
 import numpy as np
+import random
 style.use('ggplot')
 
 class Support_Vector_Machine:
@@ -10,7 +11,12 @@ class Support_Vector_Machine:
         if self.visualization:
             self.fig = plt.figure()
             self.ax = self.fig.add_subplot(1,1,1)
-    # train
+
+
+    # def create_step_sizes(feature_value):
+
+
+            # train
     def fit(self, data):
         self.data = data
         # { ||w||: [w,b] }
@@ -34,11 +40,27 @@ class Support_Vector_Machine:
         # support vectors yi(xi.w+b) = 1
 
 
-        step_sizes = [self.max_feature_value * 0.1,
-                      self.max_feature_value * 0.01,
+        # stet_sizes = create_step_sizes(self.max_feature_value)
+        # step_sizes = []
+        # feature_value = self.max_feature_value
+        # for _ in range(2):
+        #     feature_value = feature_value * 0.5
+        #     step_sizes.append(feature_value)
+
+        # a = self.max_feature_value * 0.5
+        # b = a * 0.5
+        # c = b * 0.5
+
+        # step_sizes = [a,b,c]
+
+        step_sizes = [self.max_feature_value * 0.5,
+                      self.max_feature_value * 0.1,
                       # point of expense:
-                      self.max_feature_value * 0.001,
+                      self.max_feature_value * 0.01,
+                    #   self.max_feature_value * 0.006
                       ]
+
+
 
 
 
@@ -140,13 +162,32 @@ class Support_Vector_Machine:
 
         plt.show()
 
-data_dict = {-1:np.array([[1,7],
-                          [2,8],
-                          [3,8]]),
+array_1 = []
+array_2 = []
 
-             1:np.array([[5,1],
-                         [6,-1],
+
+data_dict = {-1:np.array([[7,7],
+                          [2,8],
+                          [9,7.8]]),
+
+             1:np.array([[5,3],
+                         [6,3],
                          [7,3]])}
+
+# for i in range(5):
+    # m = 1.7
+    # a_1x = random.randint(0,3)
+    # a_1y = (m * a_1x)
+    # a_2x = random.randint(5,8)
+    # a_2y = (m * a_1x)
+    # array_1.append([a_1x, a_1y])
+    # array_2.append([a_2x, a_2y])
+    # array_1.append([random.uniform(0,2), random.uniform(5,8)])
+    # array_2.append([random.uniform(5,7), random.uniform(-2,3)])
+
+# data_dict = {-1:np.array(array_1),
+#
+#              1:np.array(array_2)}
 
 svm = Support_Vector_Machine()
 svm.fit(data=data_dict)

@@ -7,7 +7,7 @@ from collections import Counter
 from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()
-hm_lines = 100000
+hm_lines = 1200000
 
 def create_lexicon(pos, neg):
     lexicon = []
@@ -26,7 +26,7 @@ def create_lexicon(pos, neg):
         if 1000 > w_counts[w] > 50:
             l2.append(w)
 
-    print(len(l2))
+    # print(len(l2))
     return l2
 
 
