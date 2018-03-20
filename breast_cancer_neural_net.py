@@ -4,9 +4,9 @@ import tensorflow as tf
 
 ## Import Data
 df = pd.read_csv('breast-cancer-wisconsin.data.txt', error_bad_lines=False)
-# print np.array(df)[20]
+print(np.array(df)[20])
 df.replace('?', -99999, inplace=True)
-df.drop(['id'], 1, inplace=True)
+# df.drop(['id'], 1, inplace=True)
 
 X = np.array(df.drop(['class'],1))
 y = np.array(df['class'])
@@ -14,7 +14,7 @@ y = np.array(df['class'])
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X,y,test_size=0.2)
 
 ### Create Meta Data
-num_imputs = len(x[0])
+num_imputs = len(train_x[0])
 layer_1_nodes = 30
 layer_2_nodes = 30
 
@@ -22,8 +22,10 @@ num_classes = 2
 
 batch_size = 100
 
-inputs = tf.placeholder(shape=[1],dtype=tf.float32)
-expected_outputs = tf.polaceholder(shape=[1],dtype=tf.float32)
+x = tf.placeholder(shape=[1],dtype=tf.float32)
+y = tf.polaceholder(shape=[1],dtype=tf.float32)
+
+
 
 ### Create our weights
 hidden_layer_1 = {'weights':tf.Variable(tf.random_normal([num_imputs, layer_1_nodes])),
@@ -37,14 +39,14 @@ output_layer = {'weights':tf.Variable(tf.random_normal([layer_2_nodes, num_class
 
 
 ### Run Optimization
-def neural_network(data):
+def neural_network_model(data):
     layer_1 = tf.add(tf.matmul(data,hidden_layer_1['weights']),hidden_layer_1['biases'])
     layer_1 = tf.nn.relu(layer_1)
 
     layer_2 = tf.add(tf.matmul(layer_1,hidden_layer_2['weights']),hidden_layer_2['biases'])
     layer_2 = tf.nn.relu(layer_2)
 
-    output = tf.matmul(layer_2, output_layer['biases']) + output_layer['weights']
+    output = tf.matmul(layer_2, output_layer['weights']) + output_layer['biases']
 
     return output
 
@@ -78,7 +80,7 @@ def train_neural_network(x):
                 ### Calculate Accuracy
             print("Episode", episode+1, "completed out of ", num_episodes, "Loss: ", episode_loss)
             correct = tf.equal(tf.argmax(prediction,1), tf.argmax(y,1))
-            print("Accuracy", accuracy.eval({text_x:x,tesy_y:y}))################################### Look Up Function ####################################
+            print("Accuracy", accuracy.eval({text_x:x,tesy_y:y}))
 
 
 train_neural_network(x)

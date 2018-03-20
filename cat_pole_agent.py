@@ -7,6 +7,13 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import math
 
+import tensorflow.contrib.slim as slim
+
+try:
+    xrange = xrange
+except:
+    xrange = range
+
 import gym
 env = gym.make('CartPole-v0')
 

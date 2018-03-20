@@ -48,3 +48,29 @@ def neural_net_model(data):
 
 def train_neural_network(data):
     prediction = neural_network_model(data)
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y))
+    optimizer = tf.train.AdamOptimizer().minimize(cost)
+
+    num_epochs = 50
+    with tf.Session() as sess:
+        sess.run(global_variables_initializer)
+        batch_size = 100
+        for epoch in range(num_epochs):
+            epoch_loss = 0
+
+            i=0
+            while i < train_x:
+                start = i
+                end = i += batch_size
+
+                x_batch= train_x[start:end]
+                y_batch= train_y[start:end]
+
+                _, c = sess.run([optimizer, cost], feed_dict={x: x_batch, y: y_batch})
+                epoch_loss += c
+                i += batch_size
+
+            print("epoch ", epoch, " of ", num_epochs, ". Loss: -", epoch_loss, "- ")
+            correct = tf.equal(tf.argmax(prediction,1), tf.argmax(y,1))
+            accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
+            print("Accuracy = " accuracy.eval({x: test_x, y:test_y}))

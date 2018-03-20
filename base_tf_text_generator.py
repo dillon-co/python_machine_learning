@@ -1,44 +1,40 @@
+import tflearn, sys
+import numpy as np
 import tensorflow as tf
-from tensorflow.examples.tutorials.mnist import input_data
-from tensorflow.contrib import rnn
-mnist = input_data.read_data_sets("/tmp/data", one_hot = True)
-# print mnist
+input_text = open('pos.txt').read().lower()
+chars = sorted(list(set(input_text)))
+chatint = dict((char, ints) for ints, char in enumerate(chars))
+intchar = dict((ints, char) for ints, char in enumerate(chars))
+
+filename = 'mine'
+seqlen = 100
+lstmhid = 320
+keeprate = 0.80
+train = []
+true = []
+tf.reset_default_graph()
+for i in range(0, len(input)-seqlen, 1)
+    train.append([charint[char] for char in input_text[i:i+seqlen]])
+    true.append([charint[input_text[i:i+seqlen]])
 
 
-hm_epochs = 3
-n_layers = 1
-n_classes = 10
-batch_size = 128
-chunk_size = 28
-n_chunks = 28
-rnn_size = 128
 
 
 
 
-x = tf.placeholder('float', [None, n_chunks,chunk_size])
-y = tf.placeholder('float')
+X = tf.placeholder()
 
-def make_cell(lstm_size):
-    return tf.nn.rnn_cell.BasicLSTMCell(lstm_size, state_is_tuple=True)
 
 def recurrent_neural_network(x):
-    layer = {'weights':tf.Variable(tf.random_normal([rnn_size,n_classes])),
-             'biases':tf.Variable(tf.random_normal([n_classes]))}
-    # layer['weights']
+    
     # print("first x is: %s", x)
-    x = tf.transpose(x, [1,0,2])
-    print(x)
-    # print("second x is: %s", x)
-    x = tf.reshape(x,[-1,chunk_size])
-    print("\n\n\n\n")
-    print(x)
-    # print("new x is: %s", x)
-    x = tf.split(x, n_chunks, 0)
-    print("\n\n\n\n")
+    # x = tf.transpose(x, [1,0,2])
+    # # print("second x is: %s", x)
+    # x = tf.reshape(x,[-1,chunk_size])
+    # # print("new x is: %s", x)
+    # x = tf.split(x, n_chunks, 0)
     # print("final x is:", x)
 
-    print(x)
     lstm_cell = rnn.BasicLSTMCell(rnn_size, state_is_tuple=True)
     # stacked_lstm = rnn.MultiRNNCell([make_cell(rnn_size) for _ in range(n_layers)], state_is_tuple=True)
     # outputs, states = rnn.static_rnn(stacked_lstm, x, dtype=tf.float32)
@@ -47,8 +43,6 @@ def recurrent_neural_network(x):
     output = tf.matmul(outputs[-1], layer['weights']) + layer['biases']
 
     return output
-
-
 
 def train_neural_network(x):
     prediction = recurrent_neural_network(x)
